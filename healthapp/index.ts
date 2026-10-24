@@ -39,10 +39,12 @@ app.get("/bmi", (req, res) => {
 });
 
 app.post("/exercises", (req, res) => {
+  /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
   const { daily_exercises, target } = req.body as {
     daily_exercises: any;
     target: any;
   };
+  /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
 
   if (!daily_exercises || target === undefined) {
     res.status(400).json({ error: "parameters missing" });
@@ -71,7 +73,7 @@ app.post("/exercises", (req, res) => {
   try {
     const result = calculateExercises(parsedDailyHours, parsedTarget);
     res.json(result);
-  } catch (_error: unknown) {
+  } catch {
     res.status(400).json({ error: "malformatted parameters" });
   }
 });
